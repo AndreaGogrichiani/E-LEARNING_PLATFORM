@@ -5,6 +5,8 @@
     <title>Courses</title>
 </head>
 <body>
-    
+    {% for course in courses %}
+    {{ course.title }} {{ course.description }}
+    {% endfor %}
 </body>
 </html>

@@ -42,5 +42,5 @@ def user_logout(request):
     return redirect('login')
 
 def courses(request):
-    courses = Courses.object.all()
+    courses = Courses.objects.all()
     return render(request, 'author/courses.html', {"courses": courses})
