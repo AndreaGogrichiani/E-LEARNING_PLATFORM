@@ -1,11 +1,12 @@
 from django import forms
+from .models import CustomUser, Courses
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 
 class SignupForm(UserCreationForm):
     class Meta:
-        model = User
-        fields = ['username', 'password1', 'password2']
+        model = CustomUser
+        fields = ["role", 'username', 'password1', 'password2']
 
     def password_confirmation(self):
         password = self.cleaned_data.get('password1')
@@ -21,3 +22,8 @@ class LoginForm(forms.Form):
     model = User
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+class CourseForm(forms.Form):
+    class Meta:
+        model = Courses
+        fields = ['name', 'description']

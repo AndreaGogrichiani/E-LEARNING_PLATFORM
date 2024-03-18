@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
+from .models import Courses
 
 def index(request):
     return render(request, 'author/index.html')
@@ -40,3 +41,6 @@ def user_logout(request):
     logout(request)
     return redirect('login')
 
+def courses(request):
+    courses = Courses.object.all()
+    return render(request, 'author/courses.html', {"courses": courses})

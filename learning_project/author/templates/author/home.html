@@ -10,8 +10,6 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
         }
 
@@ -21,6 +19,7 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
         }
 
         h1 {
@@ -40,8 +39,8 @@
 </head>
 <body>
     <div class="container">
-        <p>Welcome, {{ request.user.username }}!</p>
-        <a href="{% url 'logout' %}">Logout</a>
+        <p>Welcome, {{ request.user.username }}! <a href="{% url 'logout' %}">Logout</a></p>
+        <div class="button"><a href="{% url 'courses '%}">Courses</a></div>
     </div>
 </body>
 </html>
