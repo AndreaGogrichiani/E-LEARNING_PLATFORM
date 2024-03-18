@@ -43,4 +43,18 @@ def user_logout(request):
 
 def courses(request):
     courses = Courses.objects.all()
-    return render(request, 'author/courses.html', {"courses": courses})
+    return render(request, 'author/courses.html', {"courses": courses, })
+
+def course(request, title):
+    courses = []
+
+    for i in Courses.objects.all():
+        courses.append(i.title)
+
+    if title in courses:
+        course = Courses.objects.get(title=title)
+        return render(request, 'author/course.html', {'course': course})
+
+    else:
+        return redirect("index")
+

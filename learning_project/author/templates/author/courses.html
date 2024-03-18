@@ -6,7 +6,7 @@
 </head>
 <body>
     {% for course in courses %}
-    {{ course.title }} {{ course.description }}
+    <a href="{% url 'course' course.title %}">{{ course.title }}</a>
     {% endfor %}
 </body>
 </html>
