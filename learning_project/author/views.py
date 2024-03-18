@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
-from .models import Courses
+from .models import Courses, CustomUser
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from .forms import CoursesForm
 
 def index(request):
     return render(request, 'author/index.html')
@@ -37,24 +40,42 @@ def user_login(request):
 
     return render(request, 'author/login.html', {"form": form})
 
+@login_required
 def user_logout(request):
     logout(request)
     return redirect('login')
 
+@login_required
 def courses(request):
     courses = Courses.objects.all()
-    return render(request, 'author/courses.html', {"courses": courses, })
+    return render(request, 'author/courses.html', {"courses": courses})
 
-def course(request, title):
+@login_required
+def course(request, course_id):
     courses = []
 
     for i in Courses.objects.all():
-        courses.append(i.title)
+        courses.append(i.id)
 
-    if title in courses:
-        course = Courses.objects.get(title=title)
+    if course_id in courses:
+        course = Courses.objects.get(id=course_id)
         return render(request, 'author/course.html', {'course': course})
 
     else:
         return redirect("index")
 
+
+@login_required
+def add_course(request):
+    if request.user.role == "instructor":
+        if request.method == "POST":
+            form = CoursesForm(request.POST)
+            if form.is_valid():
+                course = form.save()
+                return redirect('home')
+        else:
+            form = CoursesForm()
+
+        return render(request, 'author/add_course.html', {"form": form})
+    else:
+        return redirect("index")

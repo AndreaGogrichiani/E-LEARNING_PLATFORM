@@ -37,10 +37,12 @@
         .button {
             border-radius: 10px;
             background-color: #007bff;
-            height: 20px;
+            height: 23px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 10px;
+
         }
 
         #course {
@@ -52,7 +54,13 @@
 <body>
     <div class="container">
         <p>Welcome, {{ request.user.username }}! <a href="{% url 'logout' %}">Logout</a></p>
+        <p>You are assigned as {{ request.user.role }}!</p>
+        {% if request.user.role == "instructor" %}
+        <div class="button"><a href="{% url 'add_course' %}" id="course">Add Course</a></div>
+        {% endif %}
         <div class="button"><a href="{% url 'courses' %}" id="course">Courses</a></div>
+
+
     </div>
 </body>
 </html>

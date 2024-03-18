@@ -3,10 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <title>Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            width: 150px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        a:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
 </head>
 <body>
-    {% for course in courses %}
-    <a href="{% url 'course' course.title %}">{{ course.title }}</a>
-    {% endfor %}
+    <div class="container">
+        <h1>Courses</h1>
+        {% for course in courses %}
+            <a href="{% url 'course' course.id %}">{{ course.title }}</a>
+        {% endfor %}
+    </div>
 </body>
 </html>

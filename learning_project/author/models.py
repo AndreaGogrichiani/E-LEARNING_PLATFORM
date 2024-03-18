@@ -29,3 +29,4 @@ class Courses(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField(max_length=200, blank=True, null=True)
 
+

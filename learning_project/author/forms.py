@@ -23,7 +23,7 @@ class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
-class CourseForm(forms.Form):
+class CoursesForm(forms.ModelForm):
     class Meta:
         model = Courses
-        fields = ['name', 'description']
+        fields = ['title', 'description']
