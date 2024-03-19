@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Courses</title>
     <style>
         body {
@@ -17,12 +18,16 @@
 
         .container {
             background-color: #fff;
-            padding: 20px;
+            padding-right: 20px;
+            padding-left: 20px;
+            padding-top: 20px;
+            padding-bottom: 50px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 30px;
         }
 
         h1 {
@@ -38,7 +43,7 @@
             background-color: #f0f0f0;
             border-radius: 5px;
             transition: background-color 0.3s ease;
-            width: 150px;
+            width: 450px;
             height: 35px;
             display: flex;
             align-items: center;
@@ -49,14 +54,70 @@
         a:hover {
             background-color: #e0e0e0;
         }
+
+        .course {
+            display: flex;
+            height: 37px;
+            width: 400px;
+            align-items: center;
+        }
+
+
+        #edit {
+            font-size: 15px;
+            width: 10px;
+            color: white;
+            background-color: #2462d5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #edit:hover {
+            background-color: #2152ab;
+        }
+
+        button {
+            border: none;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            width: 50px;
+            color: white;
+            background-color: #e82f2f;
+            margin-left: 10px;
+        }
+
+
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Courses</h1>
         {% for course in courses %}
-            <a href="{% url 'course' course.id %}">{{ course.title }}</a>
+            <div class="course">
+                <a href="{% url 'course' course.id %}">{{ course.title }}</a>
+                {% if request.user.role == "instructor"%}
+                <a id="edit" href="{% url 'edit_course' course.id %}">Edit</a>
+                 <form method="post" action="{% url 'delete_course' course.id %}">
+                     {% csrf_token %}
+                     <button type="submit">Delete</button>
+                </form>
+                {% endif %}
+            </div>
         {% endfor %}
+
+        {% if not courses %}
+            <i class="fas fa-exclamation-triangle"></i>
+            <a style="text-align: center;" > There is no active course</a>
+        {% endif %}
     </div>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from .models import Courses, CustomUser
@@ -64,6 +64,33 @@ def course(request, course_id):
     else:
         return redirect("index")
 
+@login_required
+def delete_course(request, course_id):
+    if request.user.role == "instructor":
+        if request.method == 'POST':
+            course = Courses.objects.get(id=course_id)
+            course.delete()
+            return redirect('courses')
+    else:
+        return redirect("index")
+
+
+def edit_course(request, course_id):
+    if request.user.role == "instructor":
+        if request.method == "POST":
+            form = CoursesForm(request.POST, instance=get_object_or_404(Courses, id=course_id))
+            if form.is_valid():
+                course = get_object_or_404(Courses, id=course_id)
+                course.delete()
+                form.save()
+                return redirect('courses')
+        else:
+            form = CoursesForm(instance=get_object_or_404(Courses, id=course_id))
+
+        return render(request, 'author/add_course.html', {'form': form})
+
+
+
 
 @login_required
 def add_course(request):
@@ -71,7 +98,7 @@ def add_course(request):
         if request.method == "POST":
             form = CoursesForm(request.POST)
             if form.is_valid():
-                course = form.save()
+                form.save()
                 return redirect('home')
         else:
             form = CoursesForm()
