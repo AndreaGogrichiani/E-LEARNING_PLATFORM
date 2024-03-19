@@ -94,7 +94,14 @@
             margin-left: 10px;
         }
 
+        #enroll {
+            background-color: #2462d5;
+        }
 
+        #enroll:hover {
+            background-color: #2152ab;
+            cursor: pointer;
+        }
 
     </style>
 </head>
@@ -105,11 +112,16 @@
             <div class="course">
                 <a href="{% url 'course' course.id %}">{{ course.title }}</a>
                 {% if request.user.role == "instructor"%}
-                <a id="edit" href="{% url 'edit_course' course.id %}">Edit</a>
-                 <form method="post" action="{% url 'delete_course' course.id %}">
-                     {% csrf_token %}
-                     <button type="submit">Delete</button>
-                </form>
+                    <a id="edit" href="{% url 'edit_course' course.id %}">Edit</a>
+                     <form method="post" action="{% url 'delete_course' course.id %}">
+                         {% csrf_token %}
+                         <button type="submit">Delete</button>
+                    </form>
+                {% else %}
+                    <form method="post" action="{% url 'enroll_course' course.id %}">
+                        {% csrf_token %}
+                        <button type="submit" id="enroll">Enroll</button>
+                    </form>
                 {% endif %}
             </div>
         {% endfor %}
@@ -118,6 +130,7 @@
             <i class="fas fa-exclamation-triangle"></i>
             <a style="text-align: center;" > There is no active course</a>
         {% endif %}
+        <a href="{% url 'home' %}">home page</a>
     </div>
 </body>
 </html>

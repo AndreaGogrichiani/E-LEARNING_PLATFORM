@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>questions</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .forum {
+            background-color: #f0f0f0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .forum h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        .forum p {
+            margin-bottom: 10px;
+        }
+
+        .forum a {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .forum a:hover {
+            background-color: #0667d3;
+        }
+
+        form {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        form input[type="text"],
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+
+        form button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form button[type="submit"]:hover {
+            background-color: #0a68cc;
+        }
+        .home{
+            display: flex;
+            align-items: center;
+            margin-bottom: -5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if request.user.role == "student" %}
+            {% for question in forum %}
+                <div class="forum">
+                    <h3>{{ question.question }}</h3>
+                    <p>{{ question.answer }}</p>
+                </div>
+            {% endfor %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Save Question</button>
+            </form>
+        {% else %}
+            {% for question in forum %}
+                <div class="forum">
+                    <h3>{{ question.question }}</h3>
+                    {% if not question.answer %}
+                        <a href="{% url 'answer' question.id %}">answer</a>
+                    {% else %}
+                        <p>{{ question.answer }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <p><a class="home" href="{% url 'home' %}">home page</a></p>
+    </div>
+</body>
+</html>

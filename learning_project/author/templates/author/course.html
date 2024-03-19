@@ -37,12 +37,17 @@
             line-height: 1.5;
             margin-bottom: 20px;
         }
+        .home {
+            font-size: 15px;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>{{ course.title }}</h1>
         <p>{{ course.description }}</p>
+        <h1><a class="home" href="{% url 'home' %}">home page</a></h1>
     </div>
 </body>
 </html>

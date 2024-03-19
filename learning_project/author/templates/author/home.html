@@ -45,7 +45,7 @@
 
         }
 
-        #course {
+        .course {
             color: white;
         }
 
@@ -56,9 +56,17 @@
         <p>Welcome, {{ request.user.username }}! <a href="{% url 'logout' %}">Logout</a></p>
         <p>You are assigned as {{ request.user.role }}!</p>
         {% if request.user.role == "instructor" %}
-        <div class="button"><a href="{% url 'add_course' %}" id="course">Add Course</a></div>
+        <div class="button"><a href="{% url 'add_course' %}" class="course">Add Course</a></div>
         {% endif %}
-        <div class="button"><a href="{% url 'courses' %}" id="course">Courses</a></div>
+        <div class="button"><a href="{% url 'courses' %}" class="course">Courses</a></div>
+        <div class="button"><a href="{% url 'forum' %}" class="course">Forum</a></div>
+        {% if request.user.role == "student" %}
+            <p>Enrolled Courses:</p>
+            {% for course in courses %}
+            {{ course.title }}<br>
+            {% endfor %}
+        {% endif %}
+
 
 
     </div>

@@ -9,7 +9,10 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('courses/', views.courses, name='courses'),
     path('courses/add_course/', views.add_course, name='add_course'),
+    path("forum/", views.forum, name='forum'),
+    path("forum/<int:forum_id>", views.answer, name='answer'),
     path('courses/delete_course/<int:course_id>', views.delete_course, name='delete_course'),
     path('courses/edit_course/<int:course_id>', views.edit_course, name='edit_course'),
+    path('courses/enroll/<int:course_id>', views.enroll, name='enroll_course'),
     path('courses/<int:course_id>/', views.course, name='course'),
 ]
